@@ -10,7 +10,7 @@ const usuarios = require('./routes/usuarios');
 const clientes = require('./routes/clientes');
 const passport = require('passport')
 require('./config/auth')(passport)
-const db  = require('./config/db')
+const connectDB  = require('./config/db')
 
 
 
@@ -53,15 +53,17 @@ app.set('view engine', 'handlebars');
 
 // Mangosse
 
-mongoose.Promise = global.Promise;
-mongoose.connect(db.mongoURI).then(()=>{
 
-console.log("Mongodb conectado")
+connectDB();
+// mongoose.Promise = global.Promise;
+// mongoose.connect(db.mongoURI).then(()=>{
 
-}).catch((err) => {
-    console.log("erro ao se conectat: " + err)                
+// console.log("Mongodb conectado")
 
-});
+// }).catch((err) => {
+//     console.log("erro ao se conectat: " + err)                
+
+// });
 
 //rota
 app.use('/admin', admin)
@@ -69,7 +71,7 @@ app.use('/usuarios',usuarios)
 app.use('/clientes', clientes)
 
 app.get('/', (req,res)=>{
-    res.render('admin/')
+    res.render('usuarios/login')
 })
 
 
